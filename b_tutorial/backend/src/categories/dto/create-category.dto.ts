@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
-import { IsString } from 'class-validator';
+import { IsNotEmpty, IsString } from 'class-validator';
 
 export class CreateCategoryDto {
   @IsString()
+  @IsNotEmpty({ message: 'El nombre de la categoría no puede ir vacío' })
   name: string;
 }

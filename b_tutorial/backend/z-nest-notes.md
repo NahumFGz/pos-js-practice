@@ -5,6 +5,9 @@
 - Instalar NestJs de forma global (solo una vez)
   npm i -g @nestjs/cli
 
+- Filtrar desde el DTO
+  npm i class-validator class-transformer
+
 ## Comandos de NestJs CLI
 
 - Para crear un proyecto

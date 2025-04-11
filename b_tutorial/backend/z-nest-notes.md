@@ -8,6 +8,9 @@
 - Filtrar desde el DTO
   npm i class-validator class-transformer
 
+- Instalar TypeORM
+  npm install @nestjs/typeorm typeorm pg
+
 ## Comandos de NestJs CLI
 
 - Para crear un proyecto

@@ -21,3 +21,6 @@
 - Generar services/providers
   nest generate provider nombre_provider
   nest g pr nombre_provider
+
+- Generar recursos
+  nest g res categories

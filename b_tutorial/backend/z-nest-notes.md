@@ -11,6 +11,9 @@
 - Instalar TypeORM
   npm install @nestjs/typeorm typeorm pg
 
+- Uso de variables de entorno
+  npm install @nestjs/config
+
 ## Comandos de NestJs CLI
 
 - Para crear un proyecto

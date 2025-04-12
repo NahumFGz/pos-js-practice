@@ -1,5 +1,5 @@
-import { Controller, Get, Patch, Post, Put } from '@nestjs/common';
-import { AppService } from './app.service';
+import { Controller, Get, Patch, Post, Put } from '@nestjs/common'
+import { AppService } from './app.service'
 
 @Controller()
 export class AppController {
@@ -7,21 +7,21 @@ export class AppController {
 
   @Get()
   getHello(): string {
-    return this.appService.getHello();
+    return this.appService.getHello()
   }
 
   @Post()
   getPost() {
-    return this.appService.postHello();
+    return this.appService.postHello()
   }
 
   @Put()
   getPut() {
-    return 'desde @put';
+    return 'desde @put'
   }
 
   @Patch()
   getPatch() {
-    return 'Desde @patch';
+    return 'Desde @patch'
   }
 }

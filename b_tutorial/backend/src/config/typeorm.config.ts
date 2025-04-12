@@ -1,6 +1,6 @@
-import { ConfigService } from '@nestjs/config';
-import type { TypeOrmModuleOptions } from '@nestjs/typeorm';
-import { join } from 'path';
+import { ConfigService } from '@nestjs/config'
+import type { TypeOrmModuleOptions } from '@nestjs/typeorm'
+import { join } from 'path'
 
 export const typeOrmConfig = (
   configService: ConfigService,
@@ -15,4 +15,4 @@ export const typeOrmConfig = (
   logging: true,
   entities: [join(__dirname + '../../**/*.entity.{js,ts}')], //! Buscar los entities
   synchronize: true, //! Genera las tablas [no usar en produccion]
-});
+})

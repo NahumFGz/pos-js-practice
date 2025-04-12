@@ -13,7 +13,13 @@ export class CategoriesService {
   ) {}
 
   create(createCategoryDto: CreateCategoryDto) {
-    return createCategoryDto
+    //!Forma 1
+    // const category = new Category()
+    // category.name = createCategoryDto.name
+    // return this.categoryRepository.save(category)
+
+    //!Forma 2
+    return this.categoryRepository.save(createCategoryDto)
   }
 
   findAll() {

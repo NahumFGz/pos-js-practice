@@ -33,3 +33,6 @@
 
 - Generar recursos
   nest g res categories
+
+- Generar pipes
+  nest g pi nombre-pipe path(common/pipes)

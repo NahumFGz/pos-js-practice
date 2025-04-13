@@ -14,6 +14,9 @@
 - Uso de variables de entorno
   npm install @nestjs/config
 
+- Para trabajar con fechas
+  npm install date-fns
+
 ## Comandos de NestJs CLI
 
 - Para crear un proyecto

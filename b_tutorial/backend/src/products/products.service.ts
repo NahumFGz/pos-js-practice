@@ -34,7 +34,16 @@ export class ProductsService {
   }
 
   findAll() {
-    return this.productRepository.find()
+    //Si el eager está activo se puede deshabilitar aqui con loadEagerRelations: false
+
+    return this.productRepository.find({
+      relations: {
+        category: true,
+      },
+      order: {
+        id: 'DESC',
+      },
+    })
   }
 
   findOne(id: number) {

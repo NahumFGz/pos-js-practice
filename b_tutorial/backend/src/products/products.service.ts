@@ -33,7 +33,7 @@ export class ProductsService {
     })
   }
 
-  async findAll(categoryId: number) {
+  async findAll(categoryId: number, take: number, skip: number) {
     //Si el eager está activo se puede deshabilitar aqui con loadEagerRelations: false
     const options: FindManyOptions<Product> = {
       relations: {
@@ -42,6 +42,8 @@ export class ProductsService {
       order: {
         id: 'DESC',
       },
+      take: take,
+      skip: skip,
     }
 
     if (categoryId) {

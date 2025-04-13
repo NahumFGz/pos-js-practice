@@ -33,10 +33,10 @@ export class ProductsService {
     })
   }
 
-  findAll() {
+  async findAll() {
     //Si el eager está activo se puede deshabilitar aqui con loadEagerRelations: false
 
-    return this.productRepository.find({
+    const [data, total] = await this.productRepository.findAndCount({
       relations: {
         category: true,
       },
@@ -44,6 +44,11 @@ export class ProductsService {
         id: 'DESC',
       },
     })
+
+    return {
+      data,
+      total,
+    }
   }
 
   findOne(id: number) {

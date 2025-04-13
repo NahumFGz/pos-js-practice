@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable } from '@nestjs/common'
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common'
 import { CreateTransactionDto } from './dto/create-transaction.dto'
 import { UpdateTransactionDto } from './dto/update-transaction.dto'
 import { InjectRepository } from '@nestjs/typeorm'
@@ -20,34 +24,45 @@ export class TransactionsService {
   ) {}
 
   async create(createTransactionDto: CreateTransactionDto) {
-    const transaction = new Transaction()
-    transaction.total = createTransactionDto.total
-    await this.transactionRepository.save(transaction)
+    await this.productRepository.manager.transaction(
+      async (transactionEntityManager) => {
+        const transaction = new Transaction()
+        transaction.total = createTransactionDto.total
 
-    for (const contents of createTransactionDto.contents) {
-      const product = await this.productRepository.findOneBy({
-        id: contents.productId,
-      })
+        for (const contents of createTransactionDto.contents) {
+          const product = await transactionEntityManager.findOneBy(Product, {
+            id: contents.productId,
+          })
 
-      if (!product) {
-        throw new Error(`Producto con ID ${contents.productId} no encontrado`)
-      }
+          const errors: string[] = []
 
-      if (contents.quantity > product.inventory) {
-        throw new BadRequestException(
-          `El artículo ${product.name} excede la candidad disponible`,
-        )
-      }
-      product.inventory -= contents.quantity
+          if (!product) {
+            errors.push(
+              `El producto con el ID: ${contents.productId} no existe`,
+            )
+            throw new NotFoundException(errors)
+          }
 
-      const transactionContent = new TransactionContents()
-      transactionContent.quantity = contents.quantity
-      transactionContent.price = contents.price
-      transactionContent.transaction = transaction
-      transactionContent.product = product
+          if (contents.quantity > product.inventory) {
+            errors.push(
+              `El artículo ${product.name} excede la cantidad disponible`,
+            )
+            throw new BadRequestException(errors)
+          }
+          product.inventory -= contents.quantity
 
-      await this.transactionContentsRepository.save(transactionContent)
-    }
+          //Crear instancia de transaction contents
+          const transactionContent = new TransactionContents()
+          transactionContent.price = contents.price
+          transactionContent.product = product
+          transactionContent.quantity = contents.quantity
+          transactionContent.transaction = transaction
+
+          await transactionEntityManager.save(transaction)
+          await transactionEntityManager.save(transactionContent)
+        }
+      },
+    )
 
     return 'Venta almacenada correctamente'
   }

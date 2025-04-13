@@ -24,8 +24,7 @@ export class ProductsController {
 
   @Get()
   findAll(@Query() query: GetProductsQueryDto) {
-    console.log(query)
-    return this.productsService.findAll()
+    return this.productsService.findAll(query.category_id)
   }
 
   @Get(':id')

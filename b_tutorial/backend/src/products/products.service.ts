@@ -33,21 +33,41 @@ export class ProductsService {
     })
   }
 
-  async findAll() {
+  async findAll(categoryId: number) {
     //Si el eager está activo se puede deshabilitar aqui con loadEagerRelations: false
+    if (categoryId) {
+      const [products, total] = await this.productRepository.findAndCount({
+        where: {
+          category: {
+            id: categoryId,
+          },
+        },
+        relations: {
+          category: true,
+        },
+        order: {
+          id: 'DESC',
+        },
+      })
 
-    const [data, total] = await this.productRepository.findAndCount({
-      relations: {
-        category: true,
-      },
-      order: {
-        id: 'DESC',
-      },
-    })
+      return {
+        products,
+        total,
+      }
+    } else {
+      const [products, total] = await this.productRepository.findAndCount({
+        relations: {
+          category: true,
+        },
+        order: {
+          id: 'DESC',
+        },
+      })
 
-    return {
-      data,
-      total,
+      return {
+        products,
+        total,
+      }
     }
   }
 

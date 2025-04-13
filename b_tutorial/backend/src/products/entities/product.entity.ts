@@ -21,7 +21,7 @@ export class Product {
   price: number
 
   @Column({ type: 'int' })
-  invetory: number
+  inventory: number
 
   @ManyToOne(() => Category)
   category: Category

@@ -27,7 +27,10 @@ export class ProductsService {
       throw new NotFoundException(errors)
     }
 
-    console.log(category)
+    return await this.productRepository.save({
+      ...createProductDto,
+      category,
+    })
   }
 
   findAll() {

@@ -3,7 +3,7 @@ import { CreateProductDto } from './dto/create-product.dto'
 import { UpdateProductDto } from './dto/update-product.dto'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Product } from './entities/product.entity'
-import { Repository } from 'typeorm'
+import { FindManyOptions, Repository } from 'typeorm'
 import { Category } from 'src/categories/entities/category.entity'
 
 @Injectable()
@@ -35,39 +35,28 @@ export class ProductsService {
 
   async findAll(categoryId: number) {
     //Si el eager está activo se puede deshabilitar aqui con loadEagerRelations: false
+    const options: FindManyOptions<Product> = {
+      relations: {
+        category: true,
+      },
+      order: {
+        id: 'DESC',
+      },
+    }
+
     if (categoryId) {
-      const [products, total] = await this.productRepository.findAndCount({
-        where: {
-          category: {
-            id: categoryId,
-          },
+      options.where = {
+        category: {
+          id: categoryId,
         },
-        relations: {
-          category: true,
-        },
-        order: {
-          id: 'DESC',
-        },
-      })
-
-      return {
-        products,
-        total,
       }
-    } else {
-      const [products, total] = await this.productRepository.findAndCount({
-        relations: {
-          category: true,
-        },
-        order: {
-          id: 'DESC',
-        },
-      })
+    }
 
-      return {
-        products,
-        total,
-      }
+    const [products, total] = await this.productRepository.findAndCount(options)
+
+    return {
+      products,
+      total,
     }
   }
 

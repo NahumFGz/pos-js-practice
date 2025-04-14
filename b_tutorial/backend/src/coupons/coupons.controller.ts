@@ -1,7 +1,17 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { CouponsService } from './coupons.service';
-import { CreateCouponDto } from './dto/create-coupon.dto';
-import { UpdateCouponDto } from './dto/update-coupon.dto';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  Put,
+} from '@nestjs/common'
+import { CouponsService } from './coupons.service'
+import { CreateCouponDto } from './dto/create-coupon.dto'
+import { UpdateCouponDto } from './dto/update-coupon.dto'
+import { IdValidationPipe } from 'src/common/pipes/id-validation/id-validation.pipe'
 
 @Controller('coupons')
 export class CouponsController {
@@ -9,26 +19,29 @@ export class CouponsController {
 
   @Post()
   create(@Body() createCouponDto: CreateCouponDto) {
-    return this.couponsService.create(createCouponDto);
+    return this.couponsService.create(createCouponDto)
   }
 
   @Get()
   findAll() {
-    return this.couponsService.findAll();
+    return this.couponsService.findAll()
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.couponsService.findOne(+id);
+  findOne(@Param('id', IdValidationPipe) id: string) {
+    return this.couponsService.findOne(+id)
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCouponDto: UpdateCouponDto) {
-    return this.couponsService.update(+id, updateCouponDto);
+  @Put(':id')
+  update(
+    @Param('id', IdValidationPipe) id: string,
+    @Body() updateCouponDto: UpdateCouponDto,
+  ) {
+    return this.couponsService.update(+id, updateCouponDto)
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.couponsService.remove(+id);
+  remove(@Param('id', IdValidationPipe) id: string) {
+    return this.couponsService.remove(+id)
   }
 }

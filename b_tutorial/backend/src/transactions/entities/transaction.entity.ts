@@ -12,8 +12,14 @@ export class Transaction {
   @PrimaryGeneratedColumn()
   id: number
 
-  @Column()
+  @Column('decimal')
   total: number
+
+  @Column({ type: 'varchar', length: 30, nullable: true })
+  coupon: string
+
+  @Column({ type: 'decimal', nullable: true })
+  discount: number
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP(6)' })
   transactionDate: Date

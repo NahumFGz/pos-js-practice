@@ -5,9 +5,10 @@ import { AppController } from './app.controller'
 import { AppService } from './app.service'
 import { CategoriesModule } from './categories/categories.module'
 import { typeOrmConfig } from './config/typeorm.config'
-import { ProductsModule } from './products/products.module';
-import { TransactionsModule } from './transactions/transactions.module';
-import { CouponsModule } from './coupons/coupons.module';
+import { ProductsModule } from './products/products.module'
+import { TransactionsModule } from './transactions/transactions.module'
+import { CouponsModule } from './coupons/coupons.module'
+import { SeederService } from './seeder/seeder.service'
 
 @Module({
   imports: [
@@ -22,8 +23,10 @@ import { CouponsModule } from './coupons/coupons.module';
     ProductsModule,
     TransactionsModule,
     CouponsModule,
+    //!Para el seeder hay q quitar esto despues de crear el modulo
+    //SeederModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, SeederService],
 })
 export class AppModule {}

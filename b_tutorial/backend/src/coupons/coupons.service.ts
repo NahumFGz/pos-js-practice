@@ -64,7 +64,7 @@ export class CouponsService {
 
     return {
       message: 'Cupón válido',
-      ...coupon,
+      ...coupon, //!Para que todo se retorno como un json plano a diferencia de sin ...
     }
   }
 }

@@ -115,6 +115,26 @@ export class TransactionsService {
     const transaction = await this.findOne(id)
 
     for (const contents of transaction.contents) {
+      //! Para reestablecer stock de manera automática
+      const product = await this.productRepository.findOneBy({
+        id: contents.product.id,
+      })
+
+      if (!product) {
+        throw new NotFoundException(
+          `Producto con ID ${contents.product.id} no encontrado`,
+        )
+      }
+
+      if (typeof product.inventory !== 'number') {
+        throw new Error(
+          `El inventario del producto con ID ${product.id} no es válido`,
+        )
+      }
+      product.inventory += contents.quantity
+      await this.productRepository.save(product)
+
+      //! Eliminar las relacionadas
       const transactionContents =
         await this.transactionContentsRepository.findOneBy({ id: contents.id })
 

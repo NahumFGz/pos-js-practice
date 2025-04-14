@@ -13,9 +13,10 @@ export class SeederService {
     private readonly categoryRepository: Repository<Category>,
     @InjectRepository(Product)
     private readonly productRepository: Repository<Product>,
-    private dataSource: DataSource,
+    private dataSource: DataSource, //Para limpiar la base de datos
   ) {}
 
+  //Para iniciar la conexión al datasource y limpiar la bd
   async onModuleInit() {
     const connection = this.dataSource
     await connection.dropDatabase()

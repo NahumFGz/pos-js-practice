@@ -8,7 +8,6 @@ import { typeOrmConfig } from './config/typeorm.config'
 import { ProductsModule } from './products/products.module'
 import { TransactionsModule } from './transactions/transactions.module'
 import { CouponsModule } from './coupons/coupons.module'
-import { SeederService } from './seeder/seeder.service'
 
 @Module({
   imports: [
@@ -27,6 +26,6 @@ import { SeederService } from './seeder/seeder.service'
     //SeederModule,
   ],
   controllers: [AppController],
-  providers: [AppService, SeederService],
+  providers: [AppService], //!Aqui tmb se quita el seeder
 })
 export class AppModule {}

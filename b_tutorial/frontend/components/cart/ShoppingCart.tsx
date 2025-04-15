@@ -3,6 +3,7 @@
 import { useStore } from '@/src/store'
 import ShoppingCartItem from './ShoppingCartItem'
 import Amount from './Amount'
+import CouponForm from './CouponForm'
 
 export default function ShoppingCart() {
   const contents = useStore((state) => state.contents)
@@ -26,6 +27,8 @@ export default function ShoppingCart() {
           <dl className='space-y-6 border-t border-gray-300 py-6 text-sm font-medium text-gray-500'>
             <Amount label='Total a pagar' amount={total} />
           </dl>
+
+          <CouponForm />
         </>
       ) : (
         <p className='text-xl text-center text-gray-900'>

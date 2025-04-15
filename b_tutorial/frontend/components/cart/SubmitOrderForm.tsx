@@ -7,6 +7,8 @@ export default function SubmitOrderForm() {
   const total = useStore((state) => state.total)
   const coupon = useStore((state) => state.coupon.name)
   const contents = useStore((state) => state.contents)
+  const clearOrder = useStore((state) => state.clearOrder)
+
   const order = {
     total,
     coupon,
@@ -26,8 +28,9 @@ export default function SubmitOrderForm() {
 
     if (state.success) {
       toast.success(state.success)
+      clearOrder()
     }
-  }, [state])
+  }, [state, clearOrder])
 
   console.log(state)
 

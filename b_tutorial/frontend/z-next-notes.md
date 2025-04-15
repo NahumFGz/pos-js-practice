@@ -24,3 +24,6 @@
 
 - Instalar tailwind forms
   npm i @tailwindcss/forms
+
+- Instalar zustand
+  npm i zustand

@@ -6,6 +6,7 @@ interface Store {
   total: number
   contents: ShoppingCart
   addToCart: (product: Product) => void
+  updateQuantity: (id: Product['id'], quantity: number) => void
 }
 
 export const useStore = create<Store>()(
@@ -46,6 +47,21 @@ export const useStore = create<Store>()(
       }
 
       //! set() se usa para actualizar el estado del store
+      set({ contents: updatedCart })
+    },
+    updateQuantity: (id, quantity) => {
+      // Obtener el carrito actual
+      const currentCart = get().contents
+
+      // Generar el nuevo carrito actualizando solo el producto con el ID indicado
+      const updatedCart = currentCart.map(
+        (item) =>
+          item.productId === id
+            ? { ...item, quantity } // si coincide el ID, actualiza la cantidad
+            : item // si no, deja el item igual
+      )
+
+      // Actualizar el estado
       set({ contents: updatedCart })
     },
   }))

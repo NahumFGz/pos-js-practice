@@ -13,18 +13,23 @@ interface Store {
   calculateTotal: () => void
   applyCoupon: (couponName: string) => Promise<void>
   applyDiscount: () => void
+  clearOrder: () => void
+}
+
+const initialState = {
+  total: 0,
+  discount: 0,
+  contents: [],
+  coupon: {
+    percentage: 0,
+    name: '',
+    message: '',
+  },
 }
 
 export const useStore = create<Store>()(
   devtools((set, get) => ({
-    total: 0,
-    discount: 0,
-    contents: [],
-    coupon: {
-      percentage: 0,
-      name: '',
-      message: '',
-    },
+    ...initialState,
     addToCart: (product) => {
       const { id: productId, categoryId: _categoryId, ...data } = product
 
@@ -94,6 +99,11 @@ export const useStore = create<Store>()(
       // Actualizar el estado con el nuevo carrito
       set({ contents: updatedCart })
 
+      //! Limpiar cupon cuando se borra todo
+      if (!get().contents.length) {
+        get().clearOrder()
+      }
+
       //* Llamar a calcular al total
       get().calculateTotal()
     },
@@ -106,11 +116,12 @@ export const useStore = create<Store>()(
 
       set(() => ({ total }))
 
-      //! Solo aplicar cuando el porcentake es mayor a 0
+      //! Solo aplicar cuando el porcentaje es mayor a 0
       if (get().coupon.percentage >= 0) {
         get().applyDiscount()
       }
     },
+
     applyCoupon: async (couponName) => {
       const req = await fetch(`/coupons/api`, {
         method: 'POST',
@@ -140,6 +151,10 @@ export const useStore = create<Store>()(
         discount,
         total,
       }))
+    },
+
+    clearOrder: () => {
+      set(() => ({ ...initialState }))
     },
   }))
 )

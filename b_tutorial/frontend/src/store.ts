@@ -8,6 +8,7 @@ interface Store {
   addToCart: (product: Product) => void
   updateQuantity: (id: Product['id'], quantity: number) => void
   removeFromCart: (id: Product['id']) => void
+  calculateTotal: () => void
 }
 
 export const useStore = create<Store>()(
@@ -49,6 +50,9 @@ export const useStore = create<Store>()(
 
       //! set() se usa para actualizar el estado del store
       set({ contents: updatedCart })
+
+      //* Llamar a calcular al total
+      get().calculateTotal()
     },
 
     updateQuantity: (id, quantity) => {
@@ -65,6 +69,9 @@ export const useStore = create<Store>()(
 
       // Actualizar el estado
       set({ contents: updatedCart })
+
+      //* Llamar a calcular al total
+      get().calculateTotal()
     },
 
     removeFromCart: (id) => {
@@ -76,6 +83,18 @@ export const useStore = create<Store>()(
 
       // Actualizar el estado con el nuevo carrito
       set({ contents: updatedCart })
+
+      //* Llamar a calcular al total
+      get().calculateTotal()
+    },
+
+    calculateTotal: () => {
+      const total = get().contents.reduce(
+        (total, item) => total + item.quantity * item.price,
+        0
+      )
+
+      set(() => ({ total }))
     },
   }))
 )

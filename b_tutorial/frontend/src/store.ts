@@ -7,6 +7,7 @@ interface Store {
   contents: ShoppingCart
   addToCart: (product: Product) => void
   updateQuantity: (id: Product['id'], quantity: number) => void
+  removeFromCart: (id: Product['id']) => void
 }
 
 export const useStore = create<Store>()(
@@ -49,6 +50,7 @@ export const useStore = create<Store>()(
       //! set() se usa para actualizar el estado del store
       set({ contents: updatedCart })
     },
+
     updateQuantity: (id, quantity) => {
       // Obtener el carrito actual
       const currentCart = get().contents
@@ -62,6 +64,17 @@ export const useStore = create<Store>()(
       )
 
       // Actualizar el estado
+      set({ contents: updatedCart })
+    },
+
+    removeFromCart: (id) => {
+      // Obtener el carrito actual
+      const currentCart = get().contents
+
+      // Filtrar los productos, dejando fuera el que tiene el ID indicado
+      const updatedCart = currentCart.filter((item) => item.productId !== id)
+
+      // Actualizar el estado con el nuevo carrito
       set({ contents: updatedCart })
     },
   }))

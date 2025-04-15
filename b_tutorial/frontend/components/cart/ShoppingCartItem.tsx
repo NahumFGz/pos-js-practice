@@ -5,6 +5,7 @@ import Image from 'next/image'
 
 export default function ShoppingCartItem({ item }: { item: CartItem }) {
   const updateQuantity = useStore((state) => state.updateQuantity)
+  const removeFromCart = useStore((state) => state.removeFromCart)
 
   return (
     <li className='flex items-center space-x-6 py-6 relative'>
@@ -35,7 +36,7 @@ export default function ShoppingCartItem({ item }: { item: CartItem }) {
         </select>
       </div>
       <div className='absolute top-10 -right-0'>
-        <button type='button' onClick={() => {}}>
+        <button type='button' onClick={() => removeFromCart(item.productId)}>
           <svg
             xmlns='http://www.w3.org/2000/svg'
             fill='none'

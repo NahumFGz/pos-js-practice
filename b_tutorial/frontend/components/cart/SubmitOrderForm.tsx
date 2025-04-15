@@ -18,6 +18,8 @@ export default function SubmitOrderForm() {
     success: '',
   })
 
+  console.log(state)
+
   return (
     <form action={dispatch}>
       <input

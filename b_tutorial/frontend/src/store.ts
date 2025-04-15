@@ -14,44 +14,39 @@ export const useStore = create<Store>()(
     contents: [],
     addToCart: (product) => {
       const { id: productId, categoryId: _categoryId, ...data } = product
-      let contents: ShoppingCart = []
 
-      //* Verificar si el elemento ya se encuentra en el estado
-      const duplicated = get().contents.findIndex(
-        (item) => item.productId === productId
-      )
+      //! get() se usa para acceder al estado actual del store
+      const cart = get().contents
 
-      if (duplicated >= 0) {
-        //Verificar la cantidad de inventario para no exceder
-        if (
-          get().contents[duplicated].quantity >=
-          get().contents[duplicated].inventory
-        )
-          return
+      // Buscar si el producto ya está en el carrito
+      const existingItem = cart.find((item) => item.productId === productId)
 
-        // Buscar el producto y agregar
-        contents = get().contents.map((item) =>
+      let updatedCart: ShoppingCart
+
+      if (existingItem) {
+        // Si ya alcanzó el inventario máximo, no hacemos nada
+        if (existingItem.quantity >= existingItem.inventory) return
+
+        // Incrementamos la cantidad del producto en el carrito
+        updatedCart = cart.map((item) =>
           item.productId === productId
-            ? {
-                ...item,
-                quantity: item.quantity + 1,
-              }
+            ? { ...item, quantity: item.quantity + 1 }
             : item
         )
       } else {
-        contents = [
-          //* Get se usa para llamar a la variable del store
-          ...get().contents,
+        // Si no está en el carrito, lo agregamos con cantidad inicial 1
+        updatedCart = [
+          ...cart,
           {
             ...data,
-            quantity: 1,
             productId,
+            quantity: 1,
           },
         ]
       }
 
-      //*Set sirve para asignar el valor en memoria al estado
-      set(() => ({ contents }))
+      //! set() se usa para actualizar el estado del store
+      set({ contents: updatedCart })
     },
   }))
 )

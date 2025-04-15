@@ -27,3 +27,9 @@
 
 - Instalar zustand
   npm i zustand
+
+- calendario
+  npm i react-calendar
+
+- Fechas
+  npm i date-fns

@@ -1,11 +1,18 @@
+import { useStore } from '@/src/store'
 import { FormEvent } from 'react'
 
 export default function CouponForm() {
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const applyCoupon = useStore((state) => state.applyCoupon)
+  const coupon = useStore((state) => state.coupon)
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
     const formData = new FormData(e.currentTarget)
-    console.log(formData.get('coupon_name'))
+    const couponName = formData.get('coupon_name')?.toString().toUpperCase()
+
+    if (typeof couponName !== 'string' || couponName.trim() === '') return
+    await applyCoupon(couponName)
   }
 
   return (
@@ -14,7 +21,7 @@ export default function CouponForm() {
       <form className='flex' onSubmit={handleSubmit}>
         <input
           type='text'
-          className='p-2 bg-gray-200 border-gray-300 w-full'
+          className='p-2 bg-gray-200 border-gray-300 w-full uppercase'
           placeholder='Ingresa un cupón'
           name='coupon_name'
         />
@@ -24,6 +31,9 @@ export default function CouponForm() {
           value='Canjear'
         />
       </form>
+      {coupon.message ? (
+        <p className='py-4 text-center text-sm font-bold'>{coupon.message}</p>
+      ) : null}
     </>
   )
 }

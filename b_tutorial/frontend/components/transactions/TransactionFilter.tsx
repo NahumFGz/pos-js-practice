@@ -6,6 +6,7 @@ import { useState } from 'react'
 import { format } from 'date-fns'
 import { useQuery } from '@tanstack/react-query'
 import { getSalesByDate } from '@/src/api'
+import TransactionSummary from './TransactionSumary'
 
 type ValuePiece = Date | null
 type Value = ValuePiece | [ValuePiece, ValuePiece]
@@ -19,9 +20,6 @@ export default function TransactionFilter() {
     queryFn: () => getSalesByDate(formattedDate),
   })
 
-  console.log('data', data)
-  console.log(isLoading)
-
   return (
     <div className='grid grid-cols-1 lg:grid-cols-2 gap-5 mt-10'>
       <div>
@@ -32,7 +30,21 @@ export default function TransactionFilter() {
         />
       </div>
 
-      <div>2</div>
+      <div>
+        {isLoading && 'Cargando'}
+        {data ? (
+          data.length ? (
+            data.map((transaction) => (
+              <TransactionSummary
+                key={transaction.id}
+                transaction={transaction}
+              />
+            ))
+          ) : (
+            <p className='text-lg text-center'>No hay ventas en esta fecha</p>
+          )
+        ) : null}
+      </div>
     </div>
   )
 }

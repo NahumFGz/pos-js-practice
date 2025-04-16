@@ -33,3 +33,6 @@
 
 - Fechas
   npm i date-fns
+
+- TanstackQuery (https://tanstack.com/query/latest/docs/framework/react/guides/advanced-ssr)
+  npm i @tanstack/react-query

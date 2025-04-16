@@ -1,7 +1,14 @@
 import TransactionFilter from '@/components/transactions/TransactionFilter'
 import Heading from '@/components/ui/Heading'
+import {
+  QueryClient,
+  dehydrate,
+  HydrationBoundary,
+} from '@tanstack/react-query'
 
-export default function SalesPage() {
+export default async function SalesPage() {
+  const queryClient = new QueryClient()
+
   return (
     <>
       <Heading>Ventas</Heading>
@@ -10,7 +17,9 @@ export default function SalesPage() {
         giltrar las ventas
       </p>
 
-      <TransactionFilter />
+      <HydrationBoundary state={dehydrate(queryClient)}>
+        <TransactionFilter />
+      </HydrationBoundary>
     </>
   )
 }

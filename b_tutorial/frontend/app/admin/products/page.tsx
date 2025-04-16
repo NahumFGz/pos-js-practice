@@ -1,5 +1,6 @@
 import ProductsTable from '@/components/products/ProductsTable'
 import Heading from '@/components/ui/Heading'
+import Pagination from '@/components/ui/Pagination'
 import { ProductsResponseSchema } from '@/src/schemas'
 import { isValidPage } from '@/src/utils'
 import { redirect } from 'next/navigation'
@@ -28,15 +29,18 @@ export default async function ProductsPage({
 
   const productsPerPage = 10
   const skip = (+page - 1) * productsPerPage
-  console.log(skip)
 
   const { products, total } = await getProducts(productsPerPage, skip)
+  const totalPages = Math.ceil(total / productsPerPage)
+  if (+page > totalPages) redirect('/admin/products?page=1')
 
   return (
     <>
       <Heading>Administar Productos</Heading>
 
       <ProductsTable products={products} />
+
+      <Pagination page={+page} totalPages={totalPages} />
     </>
   )
 }

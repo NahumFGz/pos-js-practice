@@ -17,7 +17,11 @@ export default function TransactionFilter() {
   return (
     <div className='grid grid-cols-1 lg:grid-cols-2 gap-5 mt-10'>
       <div>
-        <Calendar value={date} onChange={setDate} />
+        <Calendar
+          value={date}
+          onChange={setDate}
+          locale='es-ES' // <-- Forzar el idioma desde el servidor
+        />
       </div>
 
       <div>2</div>

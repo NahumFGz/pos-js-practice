@@ -40,7 +40,11 @@ export default async function ProductsPage({
 
       <ProductsTable products={products} />
 
-      <Pagination page={+page} totalPages={totalPages} />
+      <Pagination
+        page={+page}
+        totalPages={totalPages}
+        baseUrl={'/admin/products'}
+      />
     </>
   )
 }

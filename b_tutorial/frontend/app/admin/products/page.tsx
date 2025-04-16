@@ -27,7 +27,7 @@ export default async function ProductsPage({
   const { page } = await searchParams
   if (!isValidPage(+page)) redirect('/admin/products?page=1')
 
-  const productsPerPage = 10
+  const productsPerPage = 5
   const skip = (+page - 1) * productsPerPage
 
   const { products, total } = await getProducts(productsPerPage, skip)

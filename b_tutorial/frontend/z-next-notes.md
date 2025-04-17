@@ -36,3 +36,6 @@
 
 - TanstackQuery (https://tanstack.com/query/latest/docs/framework/react/guides/advanced-ssr)
   npm i @tanstack/react-query
+
+- Drop de imagenes
+  npm i react-dropzone

@@ -20,6 +20,8 @@
 - Cloudinary
   npm i cloudinary
   npm i streamifier
+  npm i -D @types/streamifier
+  npm i -D @types/multer
 
 ## Comandos de NestJs CLI
 

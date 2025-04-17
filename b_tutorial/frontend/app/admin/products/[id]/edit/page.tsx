@@ -33,10 +33,10 @@ export default async function EditProductPage({ params }: { params: Params }) {
         Volver
       </Link>
 
-      <Heading> Editar Producto: {}</Heading>
+      <Heading> Editar Producto: {product.name}</Heading>
 
       <EditProductForm>
-        <ProductForm />
+        <ProductForm product={product} />
       </EditProductForm>
     </>
   )

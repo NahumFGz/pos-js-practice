@@ -1,6 +1,7 @@
 'use client'
 
-import { useRouter } from 'next/navigation'
+import { updateProduct } from '@/actions/update-product-action'
+import { useParams, useRouter } from 'next/navigation'
 import { useActionState, useEffect } from 'react'
 import { toast } from 'react-toastify'
 
@@ -10,9 +11,28 @@ export default function EditProductForm({
   children: React.ReactNode
 }) {
   const router = useRouter()
+  const { id } = useParams<{ id: string }>()
+
+  const updateProductWithId = updateProduct.bind(null, +id)
+  const [state, dispatch] = useActionState(updateProductWithId, {
+    errors: [],
+    success: '',
+  })
+
+  useEffect(() => {
+    if (state.errors) {
+      state.errors.forEach((error) => toast.error(error))
+    }
+
+    if (state.success) {
+      toast.success(state.success)
+      router.push('/admin/products')
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state])
 
   return (
-    <form className='space-y-5'>
+    <form className='space-y-5' action={dispatch}>
       {children}
       <input
         type='submit'

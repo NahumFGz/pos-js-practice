@@ -1,11 +1,16 @@
 'use client'
 
 import { uploadImage } from '@/actions/upload-image-action'
+import { getImagePath } from '@/src/utils'
 import Image from 'next/image'
 import { useCallback, useState } from 'react'
 import { useDropzone } from 'react-dropzone'
 
-export default function UploadProductImage() {
+export default function UploadProductImage({
+  currentImage,
+}: {
+  currentImage?: string
+}) {
   const [image, setImage] = useState('')
 
   const onDrop = useCallback(async (files: File[]) => {
@@ -72,7 +77,25 @@ export default function UploadProductImage() {
         </div>
       )}
 
-      <input type='hidden' name='image' defaultValue={image} />
+      {currentImage && !image && (
+        <div className='py-5 space-y-3'>
+          <p className='font-bold'>Imagen Actual:</p>
+          <div className='w-[300px] h-[420px] relative'>
+            <Image
+              src={getImagePath(currentImage)}
+              alt='imagen publicada'
+              className='object over'
+              fill
+            />
+          </div>
+        </div>
+      )}
+
+      <input
+        type='hidden'
+        name='image'
+        defaultValue={image ? image : currentImage}
+      />
     </>
   )
 }

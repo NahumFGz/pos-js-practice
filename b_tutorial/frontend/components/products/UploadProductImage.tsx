@@ -1,5 +1,6 @@
 'use client'
 
+import { uploadImage } from '@/actions/upload-image-action'
 import { useCallback } from 'react'
 import { useDropzone } from 'react-dropzone'
 
@@ -9,6 +10,8 @@ export default function UploadProductImage() {
     files.forEach((file) => {
       formData.append('file', file)
     })
+    const image = await uploadImage(formData)
+    console.log(image)
   }, [])
 
   const {

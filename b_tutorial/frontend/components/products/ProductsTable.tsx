@@ -74,7 +74,7 @@ export default function ProductsTable({ products }: { products: Product[] }) {
                           <span className='sr-only'>, {product.name}</span>
                         </Link>
 
-                        <DeleteProductForm />
+                        <DeleteProductForm productId={product.id} />
                       </div>
                     </td>
                   </tr>

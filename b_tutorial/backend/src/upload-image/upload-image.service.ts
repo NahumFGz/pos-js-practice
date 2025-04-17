@@ -1,9 +1,12 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-require-imports */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-argument */
+
 import { Injectable } from '@nestjs/common'
 import { v2 as cloudinary } from 'cloudinary'
 import { CloudinaryResponse } from './upload-image.response'
-import streamifier from 'streamifier'
+const streamifier = require('streamifier')
 
 @Injectable()
 export class UploadImageService {

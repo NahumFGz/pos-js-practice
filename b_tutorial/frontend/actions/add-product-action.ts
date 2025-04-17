@@ -1,6 +1,6 @@
 'use server'
 
-import { ProductFormSchema } from '@/src/schemas'
+import { ErrorResponseSchema, ProductFormSchema } from '@/src/schemas'
 
 type ActionStateType = {
   errors: string[]
@@ -25,8 +25,26 @@ export async function addProduct(
     }
   }
 
+  const url = `${process.env.API_URL}/products`
+  const req = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-type': 'application/json',
+    },
+    body: JSON.stringify(product.data),
+  })
+  const json = await req.json()
+
+  if (!req.ok) {
+    const errors = ErrorResponseSchema.parse(json)
+    return {
+      errors: errors.message.map((issue) => issue),
+      success: '',
+    }
+  }
+
   return {
     errors: [],
-    success: '',
+    success: 'Producto agregado correctamente',
   }
 }

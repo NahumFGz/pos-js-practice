@@ -1,6 +1,7 @@
 'use client'
 
 import { addProduct } from '@/actions/add-product-action'
+import { useRouter } from 'next/navigation'
 import { useActionState, useEffect } from 'react'
 import { toast } from 'react-toastify'
 
@@ -9,6 +10,8 @@ export default function AddProductForm({
 }: {
   children: React.ReactNode
 }) {
+  const router = useRouter()
+
   const [state, dispatch] = useActionState(addProduct, {
     errors: [],
     success: '',
@@ -18,6 +21,12 @@ export default function AddProductForm({
     if (state.errors) {
       state.errors.forEach((error) => toast.error(error))
     }
+
+    if (state.success) {
+      toast.success(state.success)
+      router.push('/admin/products')
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state])
 
   return (

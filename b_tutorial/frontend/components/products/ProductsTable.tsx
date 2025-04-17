@@ -1,5 +1,5 @@
 import { Product } from '@/src/schemas'
-import { formatCurrency, getImagePath } from '@/src/utils'
+import { formatCurrency, getImagePath, isAvailable } from '@/src/utils'
 import Image from 'next/image'
 import Link from 'next/link'
 import DeleteProductForm from './DeleteProductForm'
@@ -62,7 +62,13 @@ export default function ProductsTable({ products }: { products: Product[] }) {
                       {formatCurrency(product.price)}
                     </td>
                     <td className='px-3 py-4 text-sm text-gray-500'>
-                      {product.inventory}
+                      {isAvailable(product.inventory) ? (
+                        product.inventory
+                      ) : (
+                        <p className='bg-red-600 rounded-lg px-3 py-1 text-white text-center text-sm font-bold uppercase'>
+                          Agotado
+                        </p>
+                      )}
                     </td>
                     <td className='relative py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0 '>
                       <div className='flex gap-5 justify-end items-center'>

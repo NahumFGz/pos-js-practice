@@ -11,7 +11,7 @@ export class Product {
 
   @Column({
     type: 'varchar',
-    length: 20,
+    length: 200,
     nullable: true,
     default: 'default.svg',
   })

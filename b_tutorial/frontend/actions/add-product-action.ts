@@ -14,6 +14,7 @@ export async function addProduct(
   const product = ProductFormSchema.safeParse({
     name: formData.get('name'),
     price: formData.get('price'),
+    image: formData.get('image'),
     inventory: formData.get('inventory'),
     categoryId: formData.get('categoryId'),
   })

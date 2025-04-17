@@ -17,6 +17,10 @@
 - Para trabajar con fechas
   npm install date-fns
 
+- Cloudinary
+  npm i cloudinary
+  npm i streamifier
+
 ## Comandos de NestJs CLI
 
 - Para crear un proyecto
